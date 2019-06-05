@@ -4,7 +4,17 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  const appOptions = {cors: true};
+  const fs = require('fs');
+  const keyFile  = fs.readFileSync(__dirname + '/../ssl/choicery.app.key.pem');
+  const certFile = fs.readFileSync(__dirname + '/../ssl/choicery.app.crt.pem');
+
+  const appOptions = {
+    cors: true,
+    httpsOptions:{
+      key: keyFile,
+      cert: certFile,
+    }
+  };
   const app = await NestFactory.create(ApplicationModule, appOptions);
   app.setGlobalPrefix('api/v1');
   app.useGlobalPipes(
