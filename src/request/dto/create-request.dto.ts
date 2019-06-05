@@ -1,8 +1,15 @@
-import { IsEmail, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
-import { CreateCompanyDto } from '../../company/dto';
-import { Type } from 'class-transformer';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateRequestDto {
+
+    @IsNotEmpty()
+    @IsString()
+    companyName: string;
+
+    @IsNotEmpty()
+    @IsString()
+    companyWebsite: string;
+
     @IsNotEmpty()
     @IsString()
     fullName: string;
@@ -10,10 +17,6 @@ export class CreateRequestDto {
     @IsNotEmpty()
     @IsString()
     position: string;
-
-    @ValidateNested()
-    @Type(() => CreateCompanyDto)
-    prospectCompany: CreateCompanyDto;
 
     @IsNotEmpty()
     @IsString()
@@ -25,11 +28,9 @@ export class CreateRequestDto {
 
     @IsNotEmpty()
     @IsString()
-    website: string;
-
-    @IsNotEmpty()
     customerId: string;
 
     @IsNotEmpty()
+    @IsString()
     companyId: string;
 }

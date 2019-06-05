@@ -4,13 +4,12 @@ import { CompanyEntity } from '../company/company.entity';
 export interface RequestInterface {
   id: string;
   fullName: string;
-  companyName: string;
-  companyDetails: string;
+  position: string;
   prospectCompany: CompanyEntity;
-  email: string;
   status: string;
   customer: CustomerEntity;
+  company: CompanyEntity;
   requestState: string;
-  createdAt?: number;
-  updatedAt?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

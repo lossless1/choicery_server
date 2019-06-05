@@ -22,7 +22,7 @@ export class CompanyModule implements NestModule {
       .apply(AuthMiddleware)
       .forRoutes(
         {path: 'companies', method: RequestMethod.GET},
-        {path: 'companies', method: RequestMethod.POST},
+        // {path: 'companies', method: RequestMethod.POST},
         {path: 'companies/:id', method: RequestMethod.GET},
         {path: 'companies/:id', method: RequestMethod.DELETE},
         {path: 'companies/:id', method: RequestMethod.PUT});

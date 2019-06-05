@@ -21,7 +21,6 @@ export class UserController {
 
   @Get()
   async findMe(@User('email') email: string): Promise<UserRO> {
-    console.log(email);
     return await this.userService.findByEmail(email);
   }
 
@@ -50,7 +49,7 @@ export class UserController {
     if (!_user) throw new HttpException({errors}, 401);
 
     const token = await this.userService.generateJWT(_user);
-    const {email, username, fullName, position} = _user;
-    return {email, token, username, fullName, position}
+    const {email, username, fullName, position, companyId} = _user;
+    return {email, token, username, fullName, position, companyId};
   }
 }

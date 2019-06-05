@@ -26,7 +26,6 @@ export class UserModule  {
             .forRoutes(
                 {path: 'users', method: RequestMethod.GET},
                 {path: 'users', method: RequestMethod.PUT},
-                {path: 'users', method: RequestMethod.POST},
                 {path: 'users', method: RequestMethod.DELETE},
             );
     }

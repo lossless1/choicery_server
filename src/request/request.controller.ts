@@ -11,6 +11,7 @@ import {
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UserRO } from '../user/dto/user.ro';
 import { RequestInterface } from './request.interface';
+import { UpdateRequestDto } from './dto/update-request.dto';
 
 @ApiBearerAuth()
 @ApiUseTags('requests')
@@ -22,11 +23,11 @@ export class RequestController {
   @ApiOperation({ title: 'Get all companies' })
   @ApiResponse({ status: 200, description: 'Return all companies.'})
   @Get()
-  async findAll(): Promise<RequestInterface[]> {
-    return await this.requestService.findAll();
+  async findAll(@User() user: UserRO): Promise<RequestInterface[]> {
+    return await this.requestService.findAll(user);
   }
 
-  @ApiOperation({ title: 'Get all companies' })
+  @ApiOperation({ title: 'Get current company' })
   @ApiResponse({ status: 200, description: 'Return one request.'})
   @Get(':id')
   async findOne(@Param('id') id): Promise<any> {
@@ -45,7 +46,7 @@ export class RequestController {
   @ApiResponse({ status: 201, description: 'The request has been successfully updated.'})
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Put(':id')
-  async update(@Param() params, @Body('request') requestData: CreateRequestDto) {
+  async update(@Param() params, @Body('request') requestData: UpdateRequestDto) {
     return this.requestService.update(params.id, requestData);
   }
 

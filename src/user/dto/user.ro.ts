@@ -4,4 +4,5 @@ export interface UserRO {
     token: string;
     fullName: string;
     position: string;
+    companyId: string;
 }

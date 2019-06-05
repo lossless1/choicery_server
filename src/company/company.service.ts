@@ -27,7 +27,6 @@ export class CompanyService {
     company.host = companyData.host;
     company.portalUrl = companyData.portalUrl;
     company.description = companyData.description;
-
     return await this.companyRepository.save(company);
   }
 

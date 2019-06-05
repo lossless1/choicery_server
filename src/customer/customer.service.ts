@@ -6,6 +6,7 @@ import { CustomerEntity } from './customer.entity';
 import { CreateCustomerDto } from './dto/create.customer.dto';
 import { CompanyService } from '../company/company.service';
 import { CompanyEntity } from '../company/company.entity';
+import { UserRO } from '../user/dto/user.ro';
 
 
 @Injectable()
@@ -19,11 +20,13 @@ export class CustomerService {
     ) {
     }
 
-    async findAll(): Promise<any> {
+    async findAll(user: UserRO): Promise<any> {
 
         const customers = await this.customerRepository.find();
+        const company = await this.companyService.findOne(user.companyId);
+        const filteredCustomers = customers.filter(customer => customer.company.name === company.name);
 
-        return {customers, customersCount: customers.length};
+        return {customers: filteredCustomers, customersCount: filteredCustomers.length};
     }
 
     async findOne(id): Promise<CustomerEntity> {
@@ -32,14 +35,12 @@ export class CustomerService {
 
     async create(userId: number, customerData: CreateCustomerDto): Promise<CustomerEntity> {
 
-        console.log(customerData);
         const _company: CompanyEntity = await this.companyService.findOne(customerData.companyId);
-
         const errors = {company: ' with this id not found'};
         if (!_company) throw new HttpException({errors}, 401);
 
         let customer = new CustomerEntity();
-        customer.description = customerData.description;
+        customer.name = customerData.name;
         customer.city = customerData.city;
         customer.country = customerData.country;
         customer.description = customerData.description;

@@ -10,7 +10,7 @@ import {
 } from '@nestjs/swagger';
 import { CreateCustomerDto } from './dto/create.customer.dto';
 import { CustomerInterface } from './customer.interface';
-import { ValidationPipe } from '../shared/pipes/validation.pipe';
+import { UserRO } from '../user/dto/user.ro';
 
 @ApiBearerAuth()
 @ApiUseTags('customers')
@@ -23,8 +23,8 @@ export class CustomerController {
     @ApiOperation({title: 'Get all companies'})
     @ApiResponse({status: 200, description: 'Return all companies.'})
     @Get()
-    async findAll(@Query() query): Promise<CustomerInterface[]> {
-        return await this.customerService.findAll();
+    async findAll(@User() user: UserRO, @Query() query): Promise<CustomerInterface[]> {
+        return await this.customerService.findAll(user);
     }
 
     @ApiOperation({title: 'Get all companies'})

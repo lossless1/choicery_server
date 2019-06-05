@@ -9,6 +9,7 @@ import { UserRO } from '../user/dto/user.ro';
 import { CompanyService } from '../company/company.service';
 import { CreateCompanyDto } from '../company/dto';
 import { CustomerEntity } from '../customer/customer.entity';
+import { UpdateRequestDto } from './dto/update-request.dto';
 
 @Injectable()
 export class RequestService {
@@ -22,10 +23,12 @@ export class RequestService {
     ) {
     }
 
-    async findAll(): Promise<any> {
-
+    async findAll(user: UserRO): Promise<any> {
         const requests = await this.requestRepository.find();
-        return {requests, requestsCount: requests.length};
+
+        const company = await this.companyService.findOne(user.companyId);
+        const filteredRequests = requests.filter(request => request.company.name === company.name);
+        return {requests: filteredRequests, requestsCount: filteredRequests.length};
     }
 
     async findOne(id): Promise<any> {
@@ -34,11 +37,10 @@ export class RequestService {
 
     async create(user: UserRO, requestData: CreateRequestDto): Promise<RequestEntity> {
 
-        const {name, host, description, portalUrl} = requestData.prospectCompany;
         let request = new RequestEntity();
         request.fullName = requestData.fullName;
         request.prospectCompany = await this.companyService.create(
-            new CreateCompanyDto(name, host, portalUrl, description));
+            new CreateCompanyDto(requestData.fullName, '', requestData.companyWebsite, requestData.description));
         request.status = '';
 
         const _customer: CustomerEntity = await this.customerService.findOne(requestData.customerId);
@@ -56,13 +58,13 @@ export class RequestService {
 
     }
 
-    async update(id: string, requestsData: any): Promise<any> {
-        let toUpdate = await this.requestRepository.findOne({id});
+    async update(id: string, requestsData: UpdateRequestDto): Promise<RequestEntity> {
+        let toUpdate = await this.requestRepository.findOne(id);
         let updated = Object.assign(toUpdate, requestsData);
         return await this.requestRepository.save(updated);
     }
 
     async delete(id: string): Promise<DeleteResult> {
-        return await this.requestRepository.delete({id});
+        return await this.requestRepository.delete(id);
     }
 }

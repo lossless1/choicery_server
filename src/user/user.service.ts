@@ -109,7 +109,8 @@ export class UserService {
             email: user.email,
             token: this.generateJWT(user),
             fullName: user.fullName,
-            position: user.position
+            position: user.position,
+            companyId: user.companyId,
         };
     }
 }
