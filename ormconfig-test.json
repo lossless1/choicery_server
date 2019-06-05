@@ -1,0 +1,10 @@
+{
+  "type": "mongodb",
+  "name": "default",
+  "host": "localhost",
+  "port": 27017,
+  "database": "choicery",
+  "entities": ["src/**/**.entity{.ts,.js}"],
+  "synchronize": true,
+  "useNewUrlParser": true
+}
