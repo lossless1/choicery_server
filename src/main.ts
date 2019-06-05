@@ -5,8 +5,8 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const fs = require('fs');
-  const keyFile  = fs.readFileSync(__dirname + '/../ssl/choicery.app_le1.key');
-  const certFile = fs.readFileSync(__dirname + '/../ssl/choicery.app_le1.crt');
+  const keyFile  = fs.readFileSync(__dirname + '/../ssl/api.choicery.app_le1.key');
+  const certFile = fs.readFileSync(__dirname + '/../ssl/api.choicery.app_le1.crt');
 
   const appOptions = {
     cors: true,
