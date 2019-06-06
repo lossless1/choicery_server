@@ -1,7 +1,7 @@
 module.exports = {
   apps : [{
-    name: 'API',
-    script: 'node index.ts',
+    name: 'choicery_server',
+    script: 'node index.js',
 
     // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
     args: 'one two',
