@@ -20,7 +20,7 @@ import { CompanyModule } from './company/company.module';
     controllers: [
         AppController
     ],
-    providers: []
+    providers: [],
 })
 export class ApplicationModule {
     constructor(private readonly connection: Connection) {

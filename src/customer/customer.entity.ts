@@ -34,6 +34,9 @@ export class CustomerEntity {
     @Column()
     order: number;
 
+    @Column()
+    crmLink: string;
+
     @Type(() => Date)
     createdAt: number;
 

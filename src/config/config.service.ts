@@ -2,11 +2,13 @@ import * as Joi from 'joi';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 import { EnvironmentEnum } from '../enums/environment.enum';
+import { Injectable } from '@nestjs/common';
 
 export interface EnvConfigInterface {
     [prop: string]: string;
 }
 
+@Injectable()
 export class ConfigService {
     private readonly envConfig: EnvConfigInterface;
 
@@ -19,6 +21,10 @@ export class ConfigService {
         }
         config = dotenv.config({path: envPath});
         this.envConfig = this.validateEnvironment(config.parsed);
+    }
+
+    static getInstance(){
+        return new ConfigService();
     }
 
     private getJoiObjectModel() {
