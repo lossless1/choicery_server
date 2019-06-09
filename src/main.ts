@@ -3,41 +3,49 @@ import { ApplicationModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from './config/config.service';
+import { NestApplicationOptions } from '@nestjs/common/interfaces/nest-application-options.interface';
 
 async function bootstrap() {
-  const fs = require('fs');
-  const keyFile  = fs.readFileSync(__dirname + '/../ssl/api.choicery.app_le1.key');
-  const certFile = fs.readFileSync(__dirname + '/../ssl/api.choicery.app_le1.crt');
-  const caFile = fs.readFileSync(__dirname + '/../ssl/api.choicery.app_le1.ca');
+    const fs = require('fs');
+    const keyFile = fs.readFileSync(__dirname + '/../ssl/api.choicery.app_le1.key');
+    const certFile = fs.readFileSync(__dirname + '/../ssl/api.choicery.app_le1.crt');
+    const caFile = fs.readFileSync(__dirname + '/../ssl/api.choicery.app_le1.ca');
 
-  const appOptions = {
-    cors: true,
-    httpsOptions:{
-    rejectUnauthorized: false,
-    requestCert: true,
-    ca: caFile,
-    key: keyFile,
-      cert: certFile,
+    let appOptions: NestApplicationOptions = {
+        cors: true,
+    };
+
+    if (ConfigService.getInstance().get('NOE_ENV') === 'production') {
+        appOptions = {
+            ...appOptions,
+            httpsOptions: {
+                rejectUnauthorized: false,
+                requestCert: true,
+                ca: caFile,
+                key: keyFile,
+                cert: certFile,
+            }
+        }
     }
-  };
-  const app = await NestFactory.create(ApplicationModule, appOptions);
-  app.setGlobalPrefix('api/v1');
-  app.useGlobalPipes(
-      new ValidationPipe({
-        transform: true
-      }),
-  );
+    const app = await NestFactory.create(ApplicationModule, appOptions);
+    app.setGlobalPrefix('api/v1');
+    app.useGlobalPipes(
+        new ValidationPipe({
+            transform: true
+        }),
+    );
 
-  const options = new DocumentBuilder()
-    .setTitle('Choicery App')
-    .setDescription('Choicery description')
-    .setVersion('1.0')
-    .setBasePath('api')
-    .addBearerAuth()
-    .build();
-  const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('/docs', app, document);
+    const options = new DocumentBuilder()
+        .setTitle('Choicery App')
+        .setDescription('Choicery description')
+        .setVersion('1.0')
+        .setBasePath('api')
+        .addBearerAuth()
+        .build();
+    const document = SwaggerModule.createDocument(app, options);
+    SwaggerModule.setup('/docs', app, document);
 
-  await app.listen(4000);
+    await app.listen(4000);
 }
+
 bootstrap();

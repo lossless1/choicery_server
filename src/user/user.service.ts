@@ -5,18 +5,19 @@ import { UserEntity } from './user.entity';
 import { CreateUserDto, LoginUserDto, UpdateUserDto } from './dto';
 
 const jwt = require('jsonwebtoken');
-import { SECRET } from '../config';
 import { validate } from 'class-validator';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { HttpStatus } from '@nestjs/common';
 import * as crypto from 'crypto';
 import { UserRO } from './dto/user.ro';
+import { ConfigService } from '../config/config.service';
 
 @Injectable()
 export class UserService {
     constructor(
         @InjectRepository(UserEntity)
-        private readonly userRepository: Repository<UserEntity>
+        private readonly userRepository: Repository<UserEntity>,
+        private readonly configService: ConfigService,
     ) {
     }
 
@@ -100,7 +101,7 @@ export class UserService {
             username: user.username,
             email: user.email,
             exp: exp.getTime() / 1000,
-        }, SECRET);
+        }, this.configService.get('SECRET'));
     };
 
     private buildUserRO(user: UserEntity) {

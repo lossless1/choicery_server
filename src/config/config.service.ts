@@ -29,7 +29,8 @@ export class ConfigService {
 
     private getJoiObjectModel() {
         return {
-            SECRET: Joi.string(),
+            SECRET: Joi.string().required(),
+            NODE: Joi.string().required(),
         };
     }
 
