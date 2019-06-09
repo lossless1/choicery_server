@@ -8,14 +8,17 @@ async function bootstrap() {
   const fs = require('fs');
   const keyFile  = fs.readFileSync(__dirname + '/../ssl/api.choicery.app_le1.key');
   const certFile = fs.readFileSync(__dirname + '/../ssl/api.choicery.app_le1.crt');
-  // console.log(process.env);
-  console.log(ConfigService.getInstance().get('SECRET'));
+  const caFile = fs.readFileSync(__dirname + '/../ssl/api.choicery.app_le1.ca');
+
   const appOptions = {
     cors: true,
-    // httpsOptions:{
-    //   key: keyFile,
-    //   cert: certFile,
-    // }
+    httpsOptions:{
+    rejectUnauthorized: false,
+    requestCert: true,
+    ca: caFile,
+    key: keyFile,
+      cert: certFile,
+    }
   };
   const app = await NestFactory.create(ApplicationModule, appOptions);
   app.setGlobalPrefix('api/v1');
