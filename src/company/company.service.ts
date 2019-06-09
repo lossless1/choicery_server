@@ -6,38 +6,43 @@ import { CreateCompanyDto } from './dto';
 
 @Injectable()
 export class CompanyService {
-  constructor(
-    @InjectRepository(CompanyEntity)
-    private readonly companyRepository: Repository<CompanyEntity>,
-  ) {}
+    constructor(
+        @InjectRepository(CompanyEntity)
+        private readonly companyRepository: Repository<CompanyEntity>,
+    ) {
+    }
 
-  async findAll(): Promise<any> {
-    const companies = await this.companyRepository.find();
-    return {companies, companiesCount: companies.length};
-  }
+    async findAll(user): Promise<any> {
+        const companies = await this.companyRepository.find();
+        const company = await this.findOne(user.companyId);
+        const filteredCustomers = company.filter(customer => customer.company.name === company.name);
+        const filteredReversedCompanies = filteredCustomers.reverse();
 
-  async findOne(id): Promise<any> {
-    return await this.companyRepository.findOne(id);
-  }
+        return {filteredReversedCompanies, companiesCount: companies.length};
+    }
 
-  async create(companyData: CreateCompanyDto): Promise<CompanyEntity> {
+    async findOne(id): Promise<any> {
+        return await this.companyRepository.findOne(id);
+    }
 
-    let company = new CompanyEntity();
-    company.name = companyData.name;
-    company.host = companyData.host;
-    company.portalUrl = companyData.portalUrl;
-    company.description = companyData.description;
-    return await this.companyRepository.save(company);
-  }
+    async create(companyData: CreateCompanyDto): Promise<CompanyEntity> {
 
-  async update(id: string, companyData: any): Promise<any> {
-    let toUpdate = await this.companyRepository.findOne(id);
-    let updated = Object.assign(toUpdate, companyData);
-    return await this.companyRepository.save(updated);
-  }
+        let company = new CompanyEntity();
+        company.name = companyData.name;
+        company.host = companyData.host;
+        company.portalUrl = companyData.portalUrl;
+        company.description = companyData.description;
+        return await this.companyRepository.save(company);
+    }
 
-  async delete(id: string): Promise<DeleteResult> {
-    return await this.companyRepository.delete(id);
-  }
+    async update(id: string, companyData: any): Promise<any> {
+        let toUpdate = await this.companyRepository.findOne(id);
+        let updated = Object.assign(toUpdate, companyData);
+        return await this.companyRepository.save(updated);
+    }
+
+    async delete(id: string): Promise<DeleteResult> {
+        return await this.companyRepository.delete(id);
+    }
 
 }

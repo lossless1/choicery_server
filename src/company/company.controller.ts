@@ -10,6 +10,7 @@ import {
     ApiOperation,
 } from '@nestjs/swagger';
 import { CompanyInterface } from './company.interface';
+import { UserRO } from '../user/dto/user.ro';
 
 @ApiBearerAuth()
 @ApiUseTags('companies')
@@ -22,8 +23,8 @@ export class CompanyController {
     @ApiOperation({title: 'Get all companies'})
     @ApiResponse({status: 200, description: 'Return all companies.'})
     @Get()
-    async findAll(@Query() query): Promise<CompanyInterface[]> {
-        return await this.companyService.findAll();
+    async findAll(@User() user: UserRO, @Query() query): Promise<CompanyInterface[]> {
+        return await this.companyService.findAll(user);
     }
 
     @ApiOperation({title: 'Get all companies'})

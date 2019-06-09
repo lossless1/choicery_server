@@ -25,6 +25,10 @@ export class CreateCustomerDto{
     @IsMongoId()
     companyId: string;
 
+    @IsNotEmpty()
+    @IsString()
+    crmLink: string;
+
     @ValidateNested()
     @Type(() => CreateReferencePersonDto)
     referencePerson: CreateReferencePersonDto;

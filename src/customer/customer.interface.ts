@@ -1,7 +1,6 @@
-import { CustomerReferencePerson } from './model/customer.reference.person';
-import { CompanyInterface } from '../company/company.interface';
-import { CustomerContactDetailsPerson } from './model/customer.contact.details.person';
-import { Company } from '../../../client/src/app/core/models';
+import { ReferencePerson } from './model/reference.person';
+import { ContactDetailsPerson } from './model/contact.details.person';
+import { CompanyEntity } from '../company/company.entity';
 
 export interface CustomerInterface {
     id: string;
@@ -9,10 +8,11 @@ export interface CustomerInterface {
     city: string;
     country: string;
     description: string;
-    company: Company;
-    referencePerson: CustomerReferencePerson;
-    contactDetails: CustomerContactDetailsPerson;
+    company: CompanyEntity;
+    referencePerson: ReferencePerson;
+    contactDetails: ContactDetailsPerson;
     order: number;
+    crmLink: string;
     createdAt?: Date;
     updatedAt?: Date;
 }

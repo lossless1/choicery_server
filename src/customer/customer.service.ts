@@ -25,8 +25,8 @@ export class CustomerService {
         const customers = await this.customerRepository.find();
         const company = await this.companyService.findOne(user.companyId);
         const filteredCustomers = customers.filter(customer => customer.company.name === company.name);
-
-        return {customers: filteredCustomers, customersCount: filteredCustomers.length};
+        const filteredReversedCustomers = filteredCustomers.reverse();
+        return {customers: filteredReversedCustomers, customersCount: filteredCustomers.length};
     }
 
     async findOne(id): Promise<CustomerEntity> {

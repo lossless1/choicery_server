@@ -2,7 +2,7 @@ import { Column } from 'typeorm';
 import { Entity } from 'typeorm/decorator/entity/Entity';
 
 @Entity()
-export class CustomerReferencePerson{
+export class ReferencePerson{
     @Column()
     fullname: string;
 

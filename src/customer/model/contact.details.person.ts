@@ -3,7 +3,7 @@ import { Entity } from 'typeorm/decorator/entity/Entity';
 import { IsOptional, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class CustomerContactDetailsPerson{
+export class ContactDetailsPerson{
 
     @Column()
     phone: string;

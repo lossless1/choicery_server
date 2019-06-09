@@ -10,6 +10,8 @@ import { CompanyService } from '../company/company.service';
 import { CreateCompanyDto } from '../company/dto';
 import { CustomerEntity } from '../customer/customer.entity';
 import { UpdateRequestDto } from './dto/update-request.dto';
+import { ContactDetailsPerson } from '../customer/model/contact.details.person';
+import { CreateContactDetailsDto } from '../customer/dto/create.contact.details.dto';
 
 @Injectable()
 export class RequestService {
@@ -28,7 +30,8 @@ export class RequestService {
 
         const company = await this.companyService.findOne(user.companyId);
         const filteredRequests = requests.filter(request => request.company.name === company.name);
-        return {requests: filteredRequests, requestsCount: filteredRequests.length};
+        const filteredReversedRequests = filteredRequests.reverse();
+        return {requests: filteredReversedRequests, requestsCount: filteredRequests.length};
     }
 
     async findOne(id): Promise<any> {
@@ -40,7 +43,7 @@ export class RequestService {
         let request = new RequestEntity();
         request.fullName = requestData.fullName;
         request.prospectCompany = await this.companyService.create(
-            new CreateCompanyDto(requestData.fullName, '', requestData.companyWebsite, requestData.description));
+            new CreateCompanyDto(requestData.companyName, '', requestData.companyWebsite, requestData.description));
         request.status = '';
 
         const _customer: CustomerEntity = await this.customerService.findOne(requestData.customerId);
@@ -50,7 +53,7 @@ export class RequestService {
 
         const _company = await this.companyService.findOne(requestData.companyId);
         if (!_company) throw new HttpException({company: "with this id is not exist"}, 401);
-
+        request.contactDetails = new CreateContactDetailsDto(requestData.contacts);
         request.company = _company;
         request.requestState = '';
 

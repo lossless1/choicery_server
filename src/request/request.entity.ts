@@ -2,6 +2,7 @@ import { Entity, Column, ObjectIdColumn, BeforeInsert, BeforeUpdate } from 'type
 import { CustomerEntity } from '../customer/customer.entity';
 import { CompanyEntity } from '../company/company.entity';
 import { Type } from 'class-transformer';
+import { ContactDetailsPerson } from '../customer/model/contact.details.person';
 
 @Entity('requests')
 export class RequestEntity {
@@ -22,6 +23,9 @@ export class RequestEntity {
 
     @Column(type => CompanyEntity)
     company: CompanyEntity;
+
+    @Column(type => ContactDetailsPerson)
+    contactDetails: ContactDetailsPerson;
 
     @Column()
     requestState: string;

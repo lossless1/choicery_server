@@ -1,7 +1,7 @@
 import { Entity, Column, ObjectIdColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
 import { CompanyEntity } from '../company/company.entity';
-import { CustomerReferencePerson } from './model/customer.reference.person';
-import { CustomerContactDetailsPerson } from './model/customer.contact.details.person';
+import { ReferencePerson } from './model/reference.person';
+import { ContactDetailsPerson } from './model/contact.details.person';
 import { Type } from 'class-transformer';
 
 @Entity()
@@ -25,11 +25,11 @@ export class CustomerEntity {
     @Column(type => CompanyEntity)
     company: CompanyEntity;
 
-    @Column(type => CustomerReferencePerson)
-    referencePerson: CustomerReferencePerson;
+    @Column(type => ReferencePerson)
+    referencePerson: ReferencePerson;
 
-    @Column(type => CustomerContactDetailsPerson)
-    contactDetails: CustomerContactDetailsPerson;
+    @Column(type => ContactDetailsPerson)
+    contactDetails: ContactDetailsPerson;
 
     @Column()
     order: number;

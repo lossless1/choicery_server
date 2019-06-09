@@ -4,6 +4,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from './config/config.service';
 import { NestApplicationOptions } from '@nestjs/common/interfaces/nest-application-options.interface';
+import { EnvironmentEnum } from './enums/environment.enum';
 
 async function bootstrap() {
     const fs = require('fs');
@@ -15,7 +16,7 @@ async function bootstrap() {
         cors: true,
     };
 
-    if (ConfigService.getInstance().get('NOE_ENV') === 'production') {
+    if (ConfigService.getInstance().get('NOE_ENV') === EnvironmentEnum.PRODUCTION) {
         appOptions = {
             ...appOptions,
             httpsOptions: {
