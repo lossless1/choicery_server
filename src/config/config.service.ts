@@ -30,7 +30,7 @@ export class ConfigService {
     private getJoiObjectModel() {
         return {
             SECRET: Joi.string().required(),
-            NODE: Joi.string().required(),
+            NODE_ENV: Joi.string().required(),
         };
     }
 

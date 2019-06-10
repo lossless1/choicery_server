@@ -16,7 +16,7 @@ async function bootstrap() {
         cors: true,
     };
 
-    if (ConfigService.getInstance().get('NOE_ENV') === EnvironmentEnum.PRODUCTION) {
+    if (ConfigService.getInstance().get('NODE_ENV') === EnvironmentEnum.PRODUCTION) {
         appOptions = {
             ...appOptions,
             httpsOptions: {
