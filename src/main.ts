@@ -20,8 +20,6 @@ async function bootstrap() {
         appOptions = {
             ...appOptions,
             httpsOptions: {
-                rejectUnauthorized: false,
-                requestCert: true,
                 ca: caFile,
                 key: keyFile,
                 cert: certFile,
