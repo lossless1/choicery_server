@@ -25,7 +25,7 @@ module.exports = {
       ref  : 'origin/master',
       repo : 'git@github.com:lossless1/choicery_server.git',
       "ssh_options": "StrictHostKeyChecking=no",
-      path : '/var/www/www-root/data/www/app.choicery.app',
+      path : '/var/www/www-root/data/www/api.choicery.app',
       'post-deploy' : 'pm2 reload ecosystem.config.js --env production'
     }
   }
