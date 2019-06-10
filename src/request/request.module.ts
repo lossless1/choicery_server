@@ -20,7 +20,6 @@ export class RequestModule implements NestModule {
       .apply(AuthMiddleware)
       .forRoutes(
         {path: 'requests', method: RequestMethod.GET},
-        {path: 'requests', method: RequestMethod.POST},
         {path: 'requests/:id', method: RequestMethod.GET},
         {path: 'requests/:id', method: RequestMethod.DELETE},
         {path: 'requests/:id', method: RequestMethod.PUT});

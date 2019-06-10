@@ -1,32 +1,32 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateRequestDto {
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     companyName: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     companyWebsite: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     fullName: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     position: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     contacts: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     description: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     customerId: string;
 
