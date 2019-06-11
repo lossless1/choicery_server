@@ -1,7 +1,8 @@
-import { IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsEnum, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreateCompanyDto } from '../../company/dto';
 import { CreateCustomerDto } from '../../customer/dto/create.customer.dto';
+import { RequestStatusEnum } from '../../enums/request.status.enum';
 
 export class UpdateRequestDto{
     @IsOptional()
@@ -14,8 +15,8 @@ export class UpdateRequestDto{
     prospectCompany: CreateCompanyDto;
 
     @IsOptional()
-    @IsString()
-    status: string;
+    @IsEnum(RequestStatusEnum)
+    status: RequestStatusEnum;
 
     @IsOptional()
     @ValidateNested()

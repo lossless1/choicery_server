@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DeleteResult } from 'typeorm';
+import { Repository, DeleteResult, UpdateResult, ObjectID } from 'typeorm';
 import { RequestEntity } from './request.entity';
 import { UserEntity } from '../user/user.entity';
 import { CustomerService } from '../customer/customer.service';
@@ -10,7 +10,6 @@ import { CompanyService } from '../company/company.service';
 import { CreateCompanyDto } from '../company/dto';
 import { CustomerEntity } from '../customer/customer.entity';
 import { UpdateRequestDto } from './dto/update-request.dto';
-import { ContactDetailsPerson } from '../customer/model/contact.details.person';
 import { CreateContactDetailsDto } from '../customer/dto/create.contact.details.dto';
 
 @Injectable()
@@ -34,7 +33,7 @@ export class RequestService {
         return {requests: filteredReversedRequests, requestsCount: filteredRequests.length};
     }
 
-    async findOne(id): Promise<any> {
+    async findOne(id): Promise<RequestEntity> {
         return await this.requestRepository.findOne(id);
     }
 
@@ -62,9 +61,11 @@ export class RequestService {
     }
 
     async update(id: string, requestsData: UpdateRequestDto): Promise<RequestEntity> {
-        let toUpdate = await this.requestRepository.findOne(id);
-        let updated = Object.assign(toUpdate, requestsData);
-        return await this.requestRepository.save(updated);
+        const _request: RequestEntity = await this.findOne(id);
+        if (!_request) throw new HttpException({request: "with this id is not exist"}, 401);
+        const updated: RequestEntity = Object.assign(_request, requestsData);
+        await this.requestRepository.update({id: _request.id}, updated);
+        return updated;
     }
 
     async delete(id: string): Promise<DeleteResult> {
