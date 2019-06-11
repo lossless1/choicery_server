@@ -27,8 +27,10 @@ export class RequestService {
     async findAll(user: UserRO): Promise<any> {
         const requests = await this.requestRepository.find();
 
-        const company = await this.companyService.findOne(user.companyId);
-        const filteredRequests = requests.filter(request => request.company.name === company.name);
+        const _company: CustomerEntity = await this.customerService.findOne(user.companyId);
+        if (!_company) throw new HttpException({customer: "with this id is not exist"}, 401);
+
+        const filteredRequests = requests.filter(request => request.company.name === _company.name);
         const filteredReversedRequests = filteredRequests.reverse();
         return {requests: filteredReversedRequests, requestsCount: filteredRequests.length};
     }
