@@ -25,6 +25,4 @@ export class CreateUserDto {
     @IsNotEmpty()
     @IsString()
     readonly companyId: string;
-
-
 }

@@ -38,7 +38,7 @@ export class CustomerService {
 
         const _company: CompanyEntity = await this.companyService.findOne(customerData.companyId);
         const errors = {company: ' with this id not found'};
-        if (!_company) throw new HttpException({errors}, 401);
+        if (!_company) throw new HttpException({errors}, 403);
 
         let customer = new CustomerEntity();
         customer.name = customerData.name;

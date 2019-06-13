@@ -46,7 +46,7 @@ export class UserController {
     const _user: UserEntity = await this.userService.findOne(loginUserDto);
 
     const errors = {user: ' not found'};
-    if (!_user) throw new HttpException({errors}, 401);
+    if (!_user) throw new HttpException({errors}, 403);
 
     const token = await this.userService.generateJWT(_user);
     const {email, username, fullName, position, companyId} = _user;

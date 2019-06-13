@@ -1,11 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeleteResult } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { CreateUserDto, LoginUserDto, UpdateUserDto } from './dto';
 
-const jwt = require('jsonwebtoken');
-import { validate } from 'class-validator';
+import * as jwt from 'jsonwebtoken';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { HttpStatus } from '@nestjs/common';
 import * as crypto from 'crypto';
@@ -71,8 +70,8 @@ export class UserService {
         const user = await this.userRepository.findOne(id);
 
         if (!user) {
-            const errors = {User: ' not found'};
-            throw new HttpException({errors}, 401);
+            const errors = {user: ' not found'};
+            throw new HttpException({errors}, 403);
         }
 
         return this.buildUserRO(user);

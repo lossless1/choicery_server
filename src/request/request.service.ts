@@ -28,7 +28,7 @@ export class RequestService {
         const requests = await this.requestRepository.find();
 
         const _company: CustomerEntity = await this.customerService.findOne(user.companyId);
-        if (!_company) throw new HttpException({customer: "with this id is not exist"}, 401);
+        if (!_company) throw new HttpException({company: "with this id is not exist"}, 403);
 
         const filteredRequests = requests.filter(request => request.company.name === _company.name);
         const filteredReversedRequests = filteredRequests.reverse();
@@ -48,12 +48,12 @@ export class RequestService {
         request.status = '';
 
         const _customer: CustomerEntity = await this.customerService.findOne(requestData.customerId);
-        if (!_customer) throw new HttpException({customer: "with this id is not exist"}, 401);
+        if (!_customer) throw new HttpException({customer: "with this id is not exist"}, 403);
 
         request.customer = _customer;
 
         const _company = await this.companyService.findOne(requestData.companyId);
-        if (!_company) throw new HttpException({company: "with this id is not exist"}, 401);
+        if (!_company) throw new HttpException({company: "with this id is not exist"}, 403);
         request.contactDetails = new CreateContactDetailsDto(requestData.contacts);
         request.company = _company;
         request.requestState = '';
@@ -64,7 +64,7 @@ export class RequestService {
 
     async update(id: string, requestsData: UpdateRequestDto): Promise<RequestEntity> {
         const _request: RequestEntity = await this.findOne(id);
-        if (!_request) throw new HttpException({request: "with this id is not exist"}, 401);
+        if (!_request) throw new HttpException({request: "with this id is not exist"}, 403);
         const updated: RequestEntity = Object.assign(_request, requestsData);
         await this.requestRepository.update({id: _request.id}, updated);
         return updated;
