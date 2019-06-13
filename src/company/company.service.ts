@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeleteResult } from 'typeorm';
 import { CompanyEntity } from './company.entity';
@@ -26,19 +26,28 @@ export class CompanyService {
     }
 
     async create(companyData: CreateCompanyDto): Promise<CompanyEntity> {
-
-        let company = new CompanyEntity();
+        const company = new CompanyEntity();
         company.name = companyData.name;
-        company.host = companyData.host;
-        company.portalUrl = companyData.portalUrl;
-        company.description = companyData.description;
-        return await this.companyRepository.save(company);
+        company.host = companyData.host || CompanyEntity.createHostCompany(companyData.name);
+        company.portalUrl = companyData.portalUrl || CompanyEntity.createPortalUrlCompany(companyData.name);
+        company.description = companyData.description || ``;
+        try {
+            await this.companyRepository.save(company);
+            return company;
+        } catch (e) {
+            throw new HttpException({company: "not saved in DB"}, 500);
+        }
     }
 
     async update(id: string, companyData: any): Promise<any> {
         let toUpdate = await this.companyRepository.findOne(id);
         let updated = Object.assign(toUpdate, companyData);
-        return await this.companyRepository.save(updated);
+        try {
+            await this.companyRepository.save(updated);
+            return updated;
+        } catch (e) {
+            throw new HttpException({company: "not updated in DB"}, 500);
+        }
     }
 
     async delete(id: string): Promise<DeleteResult> {

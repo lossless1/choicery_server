@@ -57,16 +57,24 @@ export class RequestService {
         request.company = _company;
         request.requestState = '';
 
-        return await this.requestRepository.save(request);
-
+        try{
+            await this.requestRepository.save(request);
+            return request;
+        }catch(e){
+            throw new HttpException({request: "not saved in DB"}, 500);
+        }
     }
 
     async update(id: string, requestsData: UpdateRequestDto): Promise<RequestEntity> {
         const _request: RequestEntity = await this.findOne(id);
         if (!_request) throw new HttpException({request: "with this id is not exist"}, 403);
         const updated: RequestEntity = Object.assign(_request, requestsData);
-        await this.requestRepository.update({id: _request.id}, updated);
-        return updated;
+        try {
+            await this.requestRepository.update({id: _request.id}, updated);
+            return updated;
+        } catch (e) {
+            throw new HttpException({request: "not updated in DB"}, 500);
+        }
     }
 
     async delete(id: string): Promise<DeleteResult> {

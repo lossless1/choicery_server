@@ -33,6 +33,7 @@ export class UserService {
         return await this.userRepository.findOne(findOneOptions);
     }
 
+
     async create(dto: CreateUserDto): Promise<UserRO> {
 
         // check uniqueness of username/email
@@ -47,8 +48,8 @@ export class UserService {
         let newUser = new UserEntity();
         newUser.email = email;
         newUser.password = password;
-        newUser.position = position;
-        newUser.username = username;
+        newUser.position = position || UserEntity.getUsernameFromEmail(email);
+        newUser.username = username || UserEntity.getInitialPosition();
         newUser.fullName = fullName;
         newUser.companyId = companyId;
 

@@ -53,4 +53,13 @@ export class UserEntity {
   updateDateUpdate() {
     this.updatedAt = Date.now();
   }
+
+  static getUsernameFromEmail(email: string): string {
+    return email.split('@')[0];
+  }
+
+  static getInitialPosition() {
+    return 'Admin';
+  }
+
 }

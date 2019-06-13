@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateCompanyDto {
 
@@ -6,15 +6,15 @@ export class CreateCompanyDto {
     @IsString()
     name: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     host: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     portalUrl: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     description: string;
 

@@ -37,4 +37,12 @@ export class CompanyEntity {
     updateDateUpdate() {
         this.updatedAt = Date.now();
     }
+
+    static createHostCompany(name) {
+        return `http://www.${name.toLowerCase()}.choicery.com`;
+    }
+
+    static createPortalUrlCompany(name) {
+        return `http://www.${name.toLowerCase()}.com`;
+    }
 }
