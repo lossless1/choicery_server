@@ -1,14 +1,9 @@
-import { Get, Post, Body, Put, Delete, Query, Param, Controller } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { CreateCompanyDto } from './dto';
 import { User } from '../user/user.decorator';
 
-import {
-    ApiUseTags,
-    ApiBearerAuth,
-    ApiResponse,
-    ApiOperation,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiUseTags, } from '@nestjs/swagger';
 import { CompanyInterface } from './company.interface';
 import { UserRO } from '../user/dto/user.ro';
 

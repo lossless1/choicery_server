@@ -22,6 +22,7 @@ export class RequestController {
 
   @ApiOperation({ title: 'Get all companies' })
   @ApiResponse({ status: 200, description: 'Return all companies.'})
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Get()
   async findAll(@User() user: UserRO): Promise<RequestInterface[]> {
     return await this.requestService.findAll(user);
@@ -29,6 +30,7 @@ export class RequestController {
 
   @ApiOperation({ title: 'Get current company' })
   @ApiResponse({ status: 200, description: 'Return one request.'})
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Get(':id')
   async findOne(@Param('id') id): Promise<any> {
     return await this.requestService.findOne(id);

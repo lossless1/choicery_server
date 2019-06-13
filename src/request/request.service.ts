@@ -26,8 +26,7 @@ export class RequestService {
 
     async findAll(user: UserRO): Promise<any> {
         const requests = await this.requestRepository.find();
-
-        const _company: CustomerEntity = await this.customerService.findOne(user.companyId);
+        const _company: CustomerEntity = await this.companyService.findOne(user.companyId);
         if (!_company) throw new HttpException({company: "with this id is not exist"}, 403);
 
         const filteredRequests = requests.filter(request => request.company.name === _company.name);
