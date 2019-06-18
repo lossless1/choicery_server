@@ -37,7 +37,7 @@ export class CustomerService {
     async create(userId: number, customerData: CreateCustomerDto): Promise<CustomerEntity> {
 
         const _company: CompanyEntity = await this.companyService.findOne(customerData.companyId);
-        const errors = {company: ' with this id not found'};
+        const errors = {error: 'Company with this id not found'};
         if (!_company) throw new HttpException({errors}, 403);
 
         let customer = new CustomerEntity();
@@ -64,12 +64,12 @@ export class CustomerService {
     }
 
     async update(id: string, customerData: any): Promise<any> {
-        let toUpdate = await this.customerRepository.findOne({id});
+        let toUpdate = await this.customerRepository.findOne(id);
         let updated = Object.assign(toUpdate, customerData);
         return await this.customerRepository.save(updated);
     }
 
     async delete(id: string): Promise<DeleteResult> {
-        return await this.customerRepository.delete({id});
+        return await this.customerRepository.delete(id);
     }
 }

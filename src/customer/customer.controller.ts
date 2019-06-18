@@ -31,7 +31,7 @@ export class CustomerController {
     @ApiResponse({status: 200, description: 'Return one customer.'})
     @Get(':id')
     async findOne(@Param('id') id): Promise<any> {
-        return await this.customerService.findOne({id});
+        return await this.customerService.findOne(id);
     }
 
     @ApiOperation({title: 'Create customer'})

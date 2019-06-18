@@ -2,11 +2,11 @@ import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateRequestDto {
 
-    @IsOptional()
+    @IsNotEmpty()
     @IsString()
     companyName: string;
 
-    @IsOptional()
+    @IsNotEmpty()
     @IsString()
     companyWebsite: string;
 
@@ -14,7 +14,7 @@ export class CreateRequestDto {
     @IsString()
     fullName: string;
 
-    @IsOptional()
+    @IsNotEmpty()
     @IsString()
     position: string;
 
@@ -27,6 +27,10 @@ export class CreateRequestDto {
     description: string;
 
     @IsOptional()
+    @IsString()
+    note: string;
+
+    @IsNotEmpty()
     @IsString()
     customerId: string;
 

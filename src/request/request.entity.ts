@@ -1,4 +1,12 @@
-import { Entity, Column, ObjectIdColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
+import {
+    Entity,
+    Column,
+    ObjectIdColumn,
+    BeforeInsert,
+    BeforeUpdate,
+    CreateDateColumn,
+    UpdateDateColumn
+} from 'typeorm';
 import { CustomerEntity } from '../customer/customer.entity';
 import { CompanyEntity } from '../company/company.entity';
 import { Type } from 'class-transformer';
@@ -11,6 +19,9 @@ export class RequestEntity {
 
     @Column()
     fullName: string;
+
+    @Column()
+    position: string;
 
     @Column(type => CompanyEntity)
     prospectCompany: CompanyEntity;
@@ -30,19 +41,14 @@ export class RequestEntity {
     @Column()
     requestState: string;
 
-    @Type(() => Date)
-    createdAt: number;
+    @Column()
+    note: string;
 
-    @Type(() => Date)
-    updatedAt: number;
+    @Column()
+    @CreateDateColumn({ type: 'timestamp' })
+    createdAt: Date;
 
-    @BeforeInsert()
-    updateDateCreation() {
-        this.createdAt = Date.now();
-    }
-
-    @BeforeUpdate()
-    updateDateUpdate() {
-        this.updatedAt = Date.now();
-    }
+    @Column({ nullable: true })
+    @UpdateDateColumn({ type: 'timestamp', nullable: true })
+    updatedAt?: Date;
 }

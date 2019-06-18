@@ -11,6 +11,7 @@ import { CreateCompanyDto } from '../company/dto';
 import { CustomerEntity } from '../customer/customer.entity';
 import { UpdateRequestDto } from './dto/update-request.dto';
 import { CreateContactDetailsDto } from '../customer/dto/create.contact.details.dto';
+import { CompanyEntity } from '../company/company.entity';
 
 @Injectable()
 export class RequestService {
@@ -26,7 +27,7 @@ export class RequestService {
 
     async findAll(user: UserRO): Promise<any> {
         const requests = await this.requestRepository.find();
-        const _company: CustomerEntity = await this.companyService.findOne(user.companyId);
+        const _company: CompanyEntity = await this.companyService.findOne(user.companyId);
         if (!_company) throw new HttpException({company: "with this id is not exist"}, 403);
 
         const filteredRequests = requests.filter(request => request.company.name === _company.name);
@@ -42,38 +43,41 @@ export class RequestService {
 
         let request = new RequestEntity();
         request.fullName = requestData.fullName;
+        request.position = requestData.position;
         request.prospectCompany = await this.companyService.create(
             new CreateCompanyDto(requestData.companyName, '', requestData.companyWebsite, requestData.description));
         request.status = '';
 
         const _customer: CustomerEntity = await this.customerService.findOne(requestData.customerId);
-        if (!_customer) throw new HttpException({customer: "with this id is not exist"}, 403);
+        if (!_customer) throw new HttpException({error: "Customer with this id is not exist"}, 403);
 
         request.customer = _customer;
 
         const _company = await this.companyService.findOne(requestData.companyId);
-        if (!_company) throw new HttpException({company: "with this id is not exist"}, 403);
+        if (!_company) throw new HttpException({error: "Company with this id is not exist"}, 403);
         request.contactDetails = new CreateContactDetailsDto(requestData.contacts);
+        request.note = requestData.note;
         request.company = _company;
         request.requestState = '';
 
-        try{
+        try {
             await this.requestRepository.save(request);
             return request;
-        }catch(e){
-            throw new HttpException({request: "not saved in DB"}, 500);
+        } catch (e) {
+            throw new HttpException({error: "Request not saved in DB"}, 500);
         }
     }
 
     async update(id: string, requestsData: UpdateRequestDto): Promise<RequestEntity> {
         const _request: RequestEntity = await this.findOne(id);
-        if (!_request) throw new HttpException({request: "with this id is not exist"}, 403);
+        if (!_request) throw new HttpException({error: "Request with this id is not exist"}, 403);
         const updated: RequestEntity = Object.assign(_request, requestsData);
+        console.log(updated);
         try {
             await this.requestRepository.update({id: _request.id}, updated);
             return updated;
         } catch (e) {
-            throw new HttpException({request: "not updated in DB"}, 500);
+            throw new HttpException({error: "Request not updated in DB"}, 500);
         }
     }
 

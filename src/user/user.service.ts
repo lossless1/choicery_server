@@ -71,7 +71,7 @@ export class UserService {
         const user = await this.userRepository.findOne(id);
 
         if (!user) {
-            const errors = {user: ' not found'};
+            const errors = {error: 'User not found'};
             throw new HttpException({errors}, 403);
         }
 

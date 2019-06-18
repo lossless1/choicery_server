@@ -1,7 +1,6 @@
 export enum RequestStatusEnum {
-    TODO = 'todo',
+    TOBEDONE = 'toBeDone',
+    INPROGRESS = 'inProgress',
+    DONE = 'done',
     CANCELED = 'canceled',
-    OPEN = 'open',
-    SCHEDULED = 'scheduled',
-    DONE = 'done'
 }

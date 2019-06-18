@@ -12,16 +12,13 @@ export class CompanyService {
     ) {
     }
 
-    async findAll(user): Promise<any> {
+    async findAll(): Promise<any> {
         const companies = await this.companyRepository.find();
-        const company = await this.findOne(user.companyId);
-        const filteredCustomers = company.filter(customer => customer.company.name === company.name);
-        const filteredReversedCompanies = filteredCustomers.reverse();
-
+        const filteredReversedCompanies = companies.reverse();
         return {filteredReversedCompanies, companiesCount: companies.length};
     }
 
-    async findOne(id): Promise<any> {
+    async findOne(id): Promise<CompanyEntity> {
         return await this.companyRepository.findOne(id);
     }
 
@@ -35,7 +32,7 @@ export class CompanyService {
             await this.companyRepository.save(company);
             return company;
         } catch (e) {
-            throw new HttpException({company: "not saved in DB"}, 500);
+            throw new HttpException({error: "Company not saved in DB"}, 500);
         }
     }
 
@@ -46,7 +43,7 @@ export class CompanyService {
             await this.companyRepository.save(updated);
             return updated;
         } catch (e) {
-            throw new HttpException({company: "not updated in DB"}, 500);
+            throw new HttpException({error: "Company not updated in DB"}, 500);
         }
     }
 

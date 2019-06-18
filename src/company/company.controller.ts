@@ -6,6 +6,7 @@ import { User } from '../user/user.decorator';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiUseTags, } from '@nestjs/swagger';
 import { CompanyInterface } from './company.interface';
 import { UserRO } from '../user/dto/user.ro';
+import { CompanyEntity } from './company.entity';
 
 @ApiBearerAuth()
 @ApiUseTags('companies')
@@ -17,16 +18,18 @@ export class CompanyController {
 
     @ApiOperation({title: 'Get all companies'})
     @ApiResponse({status: 200, description: 'Return all companies.'})
+    @ApiResponse({status: 403, description: 'Forbidden.'})
     @Get()
-    async findAll(@User() user: UserRO, @Query() query): Promise<CompanyInterface[]> {
-        return await this.companyService.findAll(user);
+    async findAll(@Query() query): Promise<any[]> {
+        return await this.companyService.findAll();
     }
 
-    @ApiOperation({title: 'Get all companies'})
+    @ApiOperation({title: 'Get company'})
     @ApiResponse({status: 200, description: 'Return one company.'})
+    @ApiResponse({status: 403, description: 'Forbidden.'})
     @Get(':id')
-    async findOne(@Param('id') id): Promise<CompanyInterface> {
-        return await this.companyService.findOne({id});
+    async findOne(@Param('id') id): Promise<CompanyEntity> {
+        return await this.companyService.findOne(id);
     }
 
     @ApiOperation({title: 'Create company'})
