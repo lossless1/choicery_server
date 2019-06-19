@@ -10,7 +10,7 @@ import { CompanyEntity } from './company.entity';
 
 @ApiBearerAuth()
 @ApiUseTags('companies')
-@Controller('companies')
+@Controller('/api/v1/companies')
 export class CompanyController {
 
     constructor(private readonly companyService: CompanyService) {

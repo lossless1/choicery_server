@@ -7,6 +7,8 @@ import { CreateCustomerDto } from './dto/create.customer.dto';
 import { CompanyService } from '../company/company.service';
 import { CompanyEntity } from '../company/company.entity';
 import { UserRO } from '../user/dto/user.ro';
+import { CustomerInterface } from './customer.interface';
+import { ObjectID } from 'mongodb';
 
 
 @Injectable()
@@ -36,28 +38,28 @@ export class CustomerService {
 
     async create(userId: number, customerData: CreateCustomerDto): Promise<CustomerEntity> {
 
-        const _company: CompanyEntity = await this.companyService.findOne(customerData.companyId);
-        const errors = {error: 'Company with this id not found'};
-        if (!_company) throw new HttpException({errors}, 403);
 
-        let customer = new CustomerEntity();
+        let customer: CustomerEntity = new CustomerEntity();
         customer.name = customerData.name;
         customer.city = customerData.city;
         customer.country = customerData.country;
-        customer.description = customerData.description;
 
-        customer.company = _company;
+        const _company: CompanyEntity = await this.companyService.findOne(customerData.companyId);
+        if (!_company) throw new HttpException({error: 'Company with this id not found'}, 403);
+        customer.company = {..._company, id: new ObjectID(customerData.companyId)};
+
+        customer.note = customerData.note;
 
         //TODO Get reference person
         customer.referencePerson = {
-            fullname: customerData.referencePerson.fullname,
-            email: customerData.referencePerson.email,
-            phone: customerData.referencePerson.phone,
-            position: customerData.referencePerson.position,
-            image: '',
+            fullname: customerData.referencePersonFullName,
+            email: customerData.referencePersonPhone,
+            phone: customerData.referencePersonEmail,
+            position: customerData.referencePersonPosition,
+            image: customerData.referencePersonPhoto,
         };
-
         customer.contactDetails = customerData.contactDetails;
+        customer.note = customerData.note;
         customer.order = 0;
 
         return await this.customerRepository.save(customer);

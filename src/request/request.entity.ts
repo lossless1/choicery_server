@@ -2,20 +2,18 @@ import {
     Entity,
     Column,
     ObjectIdColumn,
-    BeforeInsert,
-    BeforeUpdate,
     CreateDateColumn,
     UpdateDateColumn
 } from 'typeorm';
 import { CustomerEntity } from '../customer/customer.entity';
 import { CompanyEntity } from '../company/company.entity';
-import { Type } from 'class-transformer';
 import { ContactDetailsPerson } from '../customer/model/contact.details.person';
+import { ObjectID } from 'mongodb';
 
 @Entity('requests')
 export class RequestEntity {
     @ObjectIdColumn()
-    id: string;
+    id: ObjectID;
 
     @Column()
     fullName: string;

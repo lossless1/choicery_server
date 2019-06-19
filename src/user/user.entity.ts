@@ -1,13 +1,19 @@
-import { Entity, Column, BeforeInsert, ObjectIdColumn, ObjectID, BeforeUpdate } from "typeorm";
-import { IsEmail} from 'class-validator';
+import {
+  Entity,
+  Column,
+  BeforeInsert,
+  ObjectIdColumn,
+  CreateDateColumn,
+  UpdateDateColumn
+} from "typeorm";
 import * as crypto from 'crypto';
-import { Type } from 'class-transformer';
+import { ObjectId} from 'mongodb';
 
 @Entity('users')
 export class UserEntity {
 
   @ObjectIdColumn()
-  id: number;
+  id: ObjectId;
 
   @Column()
   fullName: string;
@@ -38,21 +44,13 @@ export class UserEntity {
     this.password = crypto.createHmac('sha256', this.password).digest('hex');
   }
 
-  @Type(() => Date)
-  createdAt: number;
+  @Column()
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
 
-  @Type(() => Date)
-  updatedAt: number;
-
-  @BeforeInsert()
-  updateDateCreation() {
-    this.createdAt = Date.now();
-  }
-
-  @BeforeUpdate()
-  updateDateUpdate() {
-    this.updatedAt = Date.now();
-  }
+  @Column({ nullable: true })
+  @UpdateDateColumn({ type: 'timestamp', nullable: true })
+  updatedAt?: Date;
 
   static getUsernameFromEmail(email: string): string {
     return email.split('@')[0];

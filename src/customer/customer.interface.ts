@@ -1,9 +1,10 @@
 import { ReferencePerson } from './model/reference.person';
 import { ContactDetailsPerson } from './model/contact.details.person';
 import { CompanyEntity } from '../company/company.entity';
+import { ObjectID } from 'mongodb';
 
 export interface CustomerInterface {
-    id: string;
+    id: ObjectID;
     name: string;
     city: string;
     country: string;
@@ -13,6 +14,7 @@ export interface CustomerInterface {
     contactDetails: ContactDetailsPerson;
     order: number;
     crmLink: string;
+    note: string;
     createdAt?: Date;
     updatedAt?: Date;
 }

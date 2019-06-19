@@ -5,6 +5,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from './config/config.service';
 import { NestApplicationOptions } from '@nestjs/common/interfaces/nest-application-options.interface';
 import { EnvironmentEnum } from './enums/environment.enum';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 
 async function bootstrap() {
     const fs = require('fs');
@@ -26,13 +28,17 @@ async function bootstrap() {
             }
         }
     }
-    const app = await NestFactory.create(ApplicationModule, appOptions);
-    app.setGlobalPrefix('api/v1');
+    const app = await NestFactory.create<NestExpressApplication>(ApplicationModule, appOptions);
+    // app.setGlobalPrefix('api/v1');
     app.useGlobalPipes(
         new ValidationPipe({
             transform: true
         }),
     );
+
+    app.useStaticAssets(join(__dirname, '..', 'public'));
+    app.setBaseViewsDir(join(__dirname, '..', 'views'));
+    app.setViewEngine('hbs');
 
     const options = new DocumentBuilder()
         .setTitle('Choicery App')
@@ -43,7 +49,6 @@ async function bootstrap() {
         .build();
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('/docs', app, document);
-
     await app.listen(4000);
 }
 

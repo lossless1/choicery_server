@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DeleteResult, UpdateResult, ObjectID } from 'typeorm';
+import { Repository, DeleteResult } from 'typeorm';
 import { RequestEntity } from './request.entity';
 import { UserEntity } from '../user/user.entity';
 import { CustomerService } from '../customer/customer.service';
@@ -12,6 +12,7 @@ import { CustomerEntity } from '../customer/customer.entity';
 import { UpdateRequestDto } from './dto/update-request.dto';
 import { CreateContactDetailsDto } from '../customer/dto/create.contact.details.dto';
 import { CompanyEntity } from '../company/company.entity';
+import { ObjectID } from 'mongodb';
 
 @Injectable()
 export class RequestService {
@@ -51,13 +52,13 @@ export class RequestService {
         const _customer: CustomerEntity = await this.customerService.findOne(requestData.customerId);
         if (!_customer) throw new HttpException({error: "Customer with this id is not exist"}, 403);
 
-        request.customer = _customer;
+        request.customer = {..._customer, id: new ObjectID(requestData.customerId)};
 
         const _company = await this.companyService.findOne(requestData.companyId);
         if (!_company) throw new HttpException({error: "Company with this id is not exist"}, 403);
         request.contactDetails = new CreateContactDetailsDto(requestData.contacts);
         request.note = requestData.note;
-        request.company = _company;
+        request.company = {..._company, id: new ObjectID(requestData.companyId)};
         request.requestState = '';
 
         try {
@@ -72,7 +73,6 @@ export class RequestService {
         const _request: RequestEntity = await this.findOne(id);
         if (!_request) throw new HttpException({error: "Request with this id is not exist"}, 403);
         const updated: RequestEntity = Object.assign(_request, requestsData);
-        console.log(updated);
         try {
             await this.requestRepository.update({id: _request.id}, updated);
             return updated;

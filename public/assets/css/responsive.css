@@ -1,0 +1,132 @@
+/* All mobile */
+@media (min-width: 1px) and (max-width: 767px) {
+  .onboarding{
+  background-image: url('../img/bg.png');
+  background-position: center top;
+  background-repeat: no-repeat;
+  }
+  .login-logo{
+    margin-top: 80px;
+    margin-bottom: 20px;
+  }
+  .login-title h1{
+    font-size: 40px;
+  }
+  .login-title h3{
+    font-size: 16px;
+  }
+  
+  .user-container img{
+    display: none;
+  }
+  .global-nav .user-container .dropdown{
+    width: 100%;
+    border-top: 1px solid #e9e9e9;
+  }
+  .global-nav .user-container .dropdown-toggle::after{
+    display: inline-block;
+  }
+  .navbar-nav{
+    margin-top: 16px;
+  }
+  .navbar-light .navbar-nav .nav-link{
+    font-size: 16px;
+    margin: 4px 0px;
+  }
+  .navbar-nav .nav-item {
+    border-top: 1px solid #ebebeb;
+    padding-left: 0px;
+  }
+  .global-nav .user-name{
+    font-size: 16px;
+  }
+  
+  .list-container .welcome h1{
+    font-size: 24px;
+    font-weight: normal;
+  }
+  .list-container .welcome h3{
+    font-size: 16px;
+    font-weight: normal;
+    padding: 0px 32px;
+  }
+  .buddies-list .buddies-list-card .photo img{
+    width: 70%;
+    height: 100%;
+    margin: 0 auto;
+  }
+  .buddies-list .buddies-list-card .photo{
+    margin-bottom: 16px;
+  }
+  .buddies-list .buddies-list-card .car-photo{
+    display: none;
+  }
+  .buddies-list .buddies-list-card .card-title{
+    text-align: center;
+  }
+  .buddies-list .buddies-list-card .card-sub-title{
+    font-size: 14px;
+    text-align: center;
+  }
+  .buddies-list .buddies-list-card .card-details-desc p{
+    margin-bottom: 4px;
+    text-align: center;
+    font-size: 14px;
+  }
+  .buddies-list .buddies-list-card .card-cta .col{
+    text-align: center;
+  }
+  .mobile-hide{
+    display: none;
+  }
+  .buddies-list-card .card-cta .btn-contact, .buddies-list-card .card-cta .btn-details{
+    border-radius: 40px;
+    font-size: 16px;
+    padding: 15px 40px;
+  }
+  .meeting-status{
+    text-align: left;
+    margin-bottom: 16px;
+  }
+  #welcome-meetings h1{
+    font-size: 18px;
+    text-align: left;
+  }
+  .meeting-list .meeting-item .meeting-photo{
+    width: 96px;
+    height: 96px;
+    border-radius: 96px;
+  }
+  .meeting-item .media-body h5{
+    font-size: 18px;
+  }
+}
+
+/* Super Extra small (iPhones 5)*/
+@media (max-width: 320px) {
+
+}
+/* Extra small (portrait phones, less than 576px)*/
+@media (max-width: 575px) {
+  
+}
+
+/* Small (landscape phones, 576px and up)*/
+@media (min-width: 576px) and (max-width: 767px) {
+
+}
+
+/* Medium (tablets, 768px and up)*/
+@media (min-width: 768px) and (max-width: 991px) {
+
+}
+
+/* Large (desktops, 992px and up)*/
+@media (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+/* Extra large (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+
+}

@@ -1,14 +1,22 @@
-import { Entity, Column, ObjectIdColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
+import {
+    Entity,
+    Column,
+    ObjectIdColumn,
+    BeforeInsert,
+    BeforeUpdate,
+    CreateDateColumn,
+    UpdateDateColumn
+} from 'typeorm';
 import { CompanyEntity } from '../company/company.entity';
 import { ReferencePerson } from './model/reference.person';
 import { ContactDetailsPerson } from './model/contact.details.person';
-import { Type } from 'class-transformer';
+import { ObjectID } from 'mongodb';
 
 @Entity()
 export class CustomerEntity {
 
     @ObjectIdColumn()
-    id: string;
+    id: ObjectID;
 
     @Column()
     name: string;
@@ -28,8 +36,8 @@ export class CustomerEntity {
     @Column(type => ReferencePerson)
     referencePerson: ReferencePerson;
 
-    @Column(type => ContactDetailsPerson)
-    contactDetails: ContactDetailsPerson;
+    @Column()
+    contactDetails: string;
 
     @Column()
     order: number;
@@ -37,19 +45,17 @@ export class CustomerEntity {
     @Column()
     crmLink: string;
 
-    @Type(() => Date)
-    createdAt: number;
+    @Column()
+    note: string;
 
-    @Type(() => Date)
-    updatedAt: number;
+    @Column()
+    logoUrl: string;
 
-    @BeforeInsert()
-    updateDateCreation() {
-        this.createdAt = Date.now();
-    }
+    @Column()
+    @CreateDateColumn({type: 'timestamp'})
+    createdAt: Date;
 
-    @BeforeUpdate()
-    updateDateUpdate() {
-        this.updatedAt = Date.now();
-    }
+    @Column({nullable: true})
+    @UpdateDateColumn({type: 'timestamp', nullable: true})
+    updatedAt?: Date;
 }

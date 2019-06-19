@@ -1,4 +1,4 @@
-import { IsMongoId, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
+import { IsMongoId, IsNotEmpty, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { CreateReferencePersonDto } from './create.reference.person.dto';
 import { Type } from 'class-transformer';
 import { CreateContactDetailsDto } from './create.contact.details.dto';
@@ -19,7 +19,7 @@ export class CreateCustomerDto{
 
     @IsNotEmpty()
     @IsString()
-    description: string;
+    note: string;
 
     @IsNotEmpty()
     @IsMongoId()
@@ -29,11 +29,31 @@ export class CreateCustomerDto{
     @IsString()
     crmLink: string;
 
-    @ValidateNested()
-    @Type(() => CreateReferencePersonDto)
-    referencePerson: CreateReferencePersonDto;
+    @IsOptional()
+    @IsString()
+    companyLogo: string;
 
-    @ValidateNested()
-    @Type(() => CreateContactDetailsDto)
-    contactDetails: CreateContactDetailsDto;
+    @IsNotEmpty()
+    @IsString()
+    referencePersonFullName:string;
+
+    @IsNotEmpty()
+    @IsString()
+    referencePersonEmail:string;
+
+    @IsOptional()
+    @IsString()
+    referencePersonPhone:string;
+
+    @IsOptional()
+    @IsString()
+    referencePersonPhoto:string;
+
+    @IsOptional()
+    @IsString()
+    referencePersonPosition:string;
+
+    @IsNotEmpty()
+    @IsString()
+    contactDetails: string;
 }

@@ -1,11 +1,17 @@
-import { Entity, Column, ObjectIdColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
-import { Type } from 'class-transformer';
+import {
+    Entity,
+    Column,
+    ObjectIdColumn,
+    CreateDateColumn,
+    UpdateDateColumn
+} from 'typeorm';
+import { ObjectID } from 'mongodb';
 
 @Entity()
 export class CompanyEntity {
 
     @ObjectIdColumn()
-    id: string;
+    id: ObjectID;
 
     @Column()
     name: string;
@@ -22,21 +28,16 @@ export class CompanyEntity {
     @Column()
     description: string;
 
-    @Type(() => Date)
-    createdAt: number;
+    @Column()
+    logoUrl: string;
 
-    @Type(() => Date)
-    updatedAt: number;
+    @Column()
+    @CreateDateColumn({ type: 'timestamp' })
+    createdAt: Date;
 
-    @BeforeInsert()
-    updateDateCreation() {
-        this.createdAt = Date.now();
-    }
-
-    @BeforeUpdate()
-    updateDateUpdate() {
-        this.updatedAt = Date.now();
-    }
+    @Column({ nullable: true })
+    @UpdateDateColumn({ type: 'timestamp', nullable: true })
+    updatedAt?: Date;
 
     static createHostCompany(name) {
         return `http://www.${name.toLowerCase()}.choicery.com`;

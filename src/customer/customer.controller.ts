@@ -14,7 +14,7 @@ import { UserRO } from '../user/dto/user.ro';
 
 @ApiBearerAuth()
 @ApiUseTags('customers')
-@Controller('customers')
+@Controller('/api/v1/customers')
 export class CustomerController {
 
     constructor(private readonly customerService: CustomerService) {
