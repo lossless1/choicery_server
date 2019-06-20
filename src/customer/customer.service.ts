@@ -24,7 +24,6 @@ export class CustomerService {
     }
 
     async findAll(user: UserRO): Promise<any> {
-        console.log(user);
         const customers = await this.customerRepository.find();
         const company = await this.companyService.findOne(user.companyId);
         const filteredCustomers = customers.filter(customer => customer.company.name === company.name);
