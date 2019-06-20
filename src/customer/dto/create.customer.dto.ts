@@ -1,7 +1,4 @@
 import { IsMongoId, IsNotEmpty, IsOptional, IsString, ValidateNested } from 'class-validator';
-import { CreateReferencePersonDto } from './create.reference.person.dto';
-import { Type } from 'class-transformer';
-import { CreateContactDetailsDto } from './create.contact.details.dto';
 
 export class CreateCustomerDto{
 

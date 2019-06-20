@@ -1,19 +1,29 @@
-import { Get, Post, Body, Put, Delete, Query, Param, Controller, UsePipes } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+    Query,
+    UploadedFile,
+    UseFilters,
+    UseInterceptors
+} from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { User } from '../user/user.decorator';
 
-import {
-    ApiUseTags,
-    ApiBearerAuth,
-    ApiResponse,
-    ApiOperation,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiUseTags, } from '@nestjs/swagger';
 import { CreateCustomerDto } from './dto/create.customer.dto';
 import { CustomerInterface } from './customer.interface';
 import { UserRO } from '../user/dto/user.ro';
+import { HttpExceptionFilter } from '../shared/filters/http.exception.filter';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiBearerAuth()
 @ApiUseTags('/api/v1/customers')
+@UseFilters(new HttpExceptionFilter())
 @Controller('customers')
 export class CustomerController {
 
@@ -38,8 +48,12 @@ export class CustomerController {
     @ApiResponse({status: 201, description: 'The customer has been successfully created.'})
     @ApiResponse({status: 403, description: 'Forbidden.'})
     @Post()
-    async create(@User('id') userId: number, @Body('customer') customerData: CreateCustomerDto) {
-        return this.customerService.create(userId, customerData);
+    @UseInterceptors(FileInterceptor('companyLogo'))
+    async create(@UploadedFile() files) {
+        console.log(files);
+        // console.log(customerData);
+        return {"a": 1};
+        // return this.customerService.create(userId, customerData);
     }
 
     @ApiOperation({title: 'Update customer'})

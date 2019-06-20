@@ -1,4 +1,7 @@
 {
   "language": "ts",
-  "entryFile": "src/main.ts"
+  "entryFile": "src/main.ts",
+  "experimentalDecorators": true,
+  "emitDecoratorMetadata": true,
+  "target": "es6"
 }

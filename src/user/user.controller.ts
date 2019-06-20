@@ -1,4 +1,4 @@
-import { Get, Post, Body, Put, Delete, Param, Controller, UsePipes } from '@nestjs/common';
+import { Get, Post, Body, Put, Delete, Param, Controller, UsePipes, UseFilters } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserEntity } from './user.entity';
 import { CreateUserDto, UpdateUserDto, LoginUserDto } from './dto';
@@ -10,9 +10,11 @@ import {
 } from '@nestjs/swagger';
 import { User } from './user.decorator';
 import { UserRO } from './dto/user.ro';
+import { HttpExceptionFilter } from '../shared/filters/http.exception.filter';
 
 @ApiBearerAuth()
 @ApiUseTags('/api/v1/users')
+@UseFilters(new HttpExceptionFilter())
 @Controller('users')
 export class UserController {
 

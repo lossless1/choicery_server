@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseFilters } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { CreateCompanyDto } from './dto';
 import { User } from '../user/user.decorator';
@@ -7,9 +7,11 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiUseTags, } from '@nestjs/s
 import { CompanyInterface } from './company.interface';
 import { UserRO } from '../user/dto/user.ro';
 import { CompanyEntity } from './company.entity';
+import { HttpExceptionFilter } from '../shared/filters/http.exception.filter';
 
 @ApiBearerAuth()
 @ApiUseTags('/api/v1/companies')
+@UseFilters(new HttpExceptionFilter())
 @Controller('companies')
 export class CompanyController {
 

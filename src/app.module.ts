@@ -7,6 +7,9 @@ import { ConfigModule } from './config/config.module';
 import { RequestModule } from './request/request.module';
 import { CustomerModule } from './customer/customer.module';
 import { CompanyModule } from './company/company.module';
+import { MulterModule } from '@nestjs/platform-express';
+import { ConfigService } from './config/config.service';
+import { AuthMiddleware } from './user/auth.middleware';
 
 @Module({
     imports: [
@@ -16,11 +19,18 @@ import { CompanyModule } from './company/company.module';
         CompanyModule,
         CustomerModule,
         RequestModule,
+        MulterModule.registerAsync({
+            imports: [ConfigModule],
+            useFactory: (configService: ConfigService) =>
+                configService.getMulterOptions(),
+            inject: [ConfigService],
+        }),
     ],
     controllers: [
         AppController
     ],
-    providers: [],
+    providers: [
+    ],
 })
 export class ApplicationModule {
     constructor(private readonly connection: Connection) {

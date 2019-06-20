@@ -5,10 +5,17 @@ import { CompanyService } from './company.service';
 import { AuthMiddleware } from '../user/auth.middleware';
 import { CompanyEntity } from './company.entity';
 import { UserModule } from '../user/user.module';
+import { ConfigService } from '../config/config.service';
+import { ConfigModule } from '../config/config.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CompanyEntity]), UserModule],
-  providers: [CompanyService],
+  imports: [TypeOrmModule.forFeature([CompanyEntity]),
+      UserModule,
+      ConfigModule
+  ],
+  providers: [
+      CompanyService,
+  ],
   controllers: [
     CompanyController
   ],

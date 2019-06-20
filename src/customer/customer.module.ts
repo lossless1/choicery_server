@@ -6,9 +6,14 @@ import { AuthMiddleware } from '../user/auth.middleware';
 import { CustomerEntity } from './customer.entity';
 import { UserModule } from '../user/user.module';
 import { CompanyModule } from '../company/company.module';
+import { UserEntity } from '../user/user.entity';
+import { ConfigModule } from '../config/config.module';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([CustomerEntity]), UserModule, CompanyModule],
+    imports: [TypeOrmModule.forFeature([CustomerEntity, UserEntity]),
+        ConfigModule,
+        UserModule,
+        CompanyModule],
     providers: [CustomerService],
     controllers: [
         CustomerController
@@ -19,11 +24,12 @@ import { CompanyModule } from '../company/company.module';
 })
 export class CustomerModule implements NestModule {
     public configure(consumer: MiddlewareConsumer) {
+        console.log(123);
         consumer
             .apply(AuthMiddleware)
             .forRoutes(
                 {path: 'customers', method: RequestMethod.GET},
-                {path: 'customers', method: RequestMethod.POST},
+                // {path: 'customers', method: RequestMethod.POST},
                 {path: 'customers/:id', method: RequestMethod.GET},
                 {path: 'customers/:id', method: RequestMethod.DELETE},
                 {path: 'customers/:id', method: RequestMethod.PUT});

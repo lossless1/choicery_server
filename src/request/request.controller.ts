@@ -1,4 +1,4 @@
-import {Get, Post, Body, Put, Delete, Param, Controller} from '@nestjs/common';
+import { Get, Post, Body, Put, Delete, Param, Controller, UseFilters } from '@nestjs/common';
 import { RequestService } from './request.service';
 import { User } from '../user/user.decorator';
 
@@ -12,9 +12,11 @@ import { CreateRequestDto } from './dto/create-request.dto';
 import { UserRO } from '../user/dto/user.ro';
 import { RequestInterface } from './request.interface';
 import { UpdateRequestDto } from './dto/update-request.dto';
+import { HttpExceptionFilter } from '../shared/filters/http.exception.filter';
 
 @ApiBearerAuth()
 @ApiUseTags('/api/v1/requests')
+@UseFilters(new HttpExceptionFilter())
 @Controller('requests')
 export class RequestController {
 

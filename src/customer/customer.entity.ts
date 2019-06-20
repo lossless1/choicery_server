@@ -2,14 +2,11 @@ import {
     Entity,
     Column,
     ObjectIdColumn,
-    BeforeInsert,
-    BeforeUpdate,
     CreateDateColumn,
     UpdateDateColumn
 } from 'typeorm';
 import { CompanyEntity } from '../company/company.entity';
 import { ReferencePerson } from './model/reference.person';
-import { ContactDetailsPerson } from './model/contact.details.person';
 import { ObjectID } from 'mongodb';
 
 @Entity()
