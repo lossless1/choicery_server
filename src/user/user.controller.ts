@@ -12,8 +12,8 @@ import { User } from './user.decorator';
 import { UserRO } from './dto/user.ro';
 
 @ApiBearerAuth()
-@ApiUseTags('users')
-@Controller('/api/v1/users')
+@ApiUseTags('/api/v1/users')
+@Controller('users')
 export class UserController {
 
   constructor(private readonly userService: UserService) {}

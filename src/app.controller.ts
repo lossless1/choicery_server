@@ -52,9 +52,6 @@ export class AppController {
         const html = template(context);
         fs.writeFileSync(join(__dirname, '..', 'views', 'index.html'), html);
 
-
-
-
-        return {message: 'Hello world!'};
+        return context;
     }
 }

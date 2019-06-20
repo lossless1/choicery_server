@@ -13,8 +13,8 @@ import { CustomerInterface } from './customer.interface';
 import { UserRO } from '../user/dto/user.ro';
 
 @ApiBearerAuth()
-@ApiUseTags('customers')
-@Controller('/api/v1/customers')
+@ApiUseTags('/api/v1/customers')
+@Controller('customers')
 export class CustomerController {
 
     constructor(private readonly customerService: CustomerService) {

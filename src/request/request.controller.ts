@@ -14,8 +14,8 @@ import { RequestInterface } from './request.interface';
 import { UpdateRequestDto } from './dto/update-request.dto';
 
 @ApiBearerAuth()
-@ApiUseTags('requests')
-@Controller('/api/v1/requests')
+@ApiUseTags('/api/v1/requests')
+@Controller('requests')
 export class RequestController {
 
   constructor(private readonly requestService: RequestService) {}

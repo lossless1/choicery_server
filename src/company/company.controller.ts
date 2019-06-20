@@ -9,8 +9,8 @@ import { UserRO } from '../user/dto/user.ro';
 import { CompanyEntity } from './company.entity';
 
 @ApiBearerAuth()
-@ApiUseTags('companies')
-@Controller('/api/v1/companies')
+@ApiUseTags('/api/v1/companies')
+@Controller('companies')
 export class CompanyController {
 
     constructor(private readonly companyService: CompanyService) {

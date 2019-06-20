@@ -29,7 +29,7 @@ async function bootstrap() {
         }
     }
     const app = await NestFactory.create<NestExpressApplication>(ApplicationModule, appOptions);
-    // app.setGlobalPrefix('api/v1');
+    app.setGlobalPrefix('api/v1');
     app.useGlobalPipes(
         new ValidationPipe({
             transform: true
@@ -39,7 +39,7 @@ async function bootstrap() {
     app.useStaticAssets(join(__dirname, '..', 'public'));
     app.setBaseViewsDir(join(__dirname, '..', 'views'));
     app.setViewEngine('hbs');
-
+    //
     const options = new DocumentBuilder()
         .setTitle('Choicery App')
         .setDescription('Choicery description')
